@@ -17,7 +17,7 @@ export default class Task extends BaseModel {
   declare userId: number
 
   @belongsTo(() => User)
-  declare user: BelongsTo<typeof User>
+  declare user: BelongsTo<typeof User> //Relation to User because User has many tasks, Foreign key from User
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
