@@ -36,10 +36,18 @@ export default class TasksController {
     return response.created(task)
   }
 
-  /**
-   * Show individual record
-   */
-  //async show({ params }: HttpContext) {}
+  //Get one task from this user
+  async show({ params, auth, response }: HttpContext) {
+    const user = auth.user! // get the user connected (because of middleware "auth")
+
+    const task = await Task.findOrFail(params.id) // search the task by the ID
+
+    if (task.userId !== user.id) {
+      return response.unauthorized() // If she doesn't belong to the user, refused
+    }
+
+    return response.ok(task) // return tasks to json form
+  }
 
   /**
    * Edit individual record
